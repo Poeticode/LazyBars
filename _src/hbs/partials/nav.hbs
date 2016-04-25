@@ -1,8 +1,8 @@
 <nav class="nav" tabindex="-1" onclick="this.focus()">
     <div class="container">
-        <a class="pagename current" href="#">{{ site.title }}</a>
+        <a class="pagename current" href="http://localhost/index.html">{{ site.title }}</a>
         {{#each site.menu }}
-        <a href="{{#if this.link }}{{this.link}}{{else}}#{{/if}}">{{capitalize this.name}}</a>
+        <a href="{{#if this.link }}http://localhost/{{this.link}}{{else}}#{{/if}}">{{capitalize this.name}}</a>
         {{/each}}
     </div> 
 </nav> 

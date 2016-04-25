@@ -6,9 +6,22 @@
     },  {
         "name": "Posts",
         "link": "posts.html",
-        "submenu": [
-                "nothing.html", 
-                "something.html"
-        ]
+        "submenu": [{
+            "name": "Nothing",
+            "link": "nothing.html"
+        },  {
+            "name": "Something",
+            "link": "something.html"
+        }]
+    },  {
+        "name": "Projects",
+        "link": "projects.html",
+        "submenu": [{
+            "name": "Greensock",
+            "link": "projects/greensock.html"
+        },  {
+            "name": "ThreeJS",
+            "link": "projects/threejs.html"
+        }]
     }]
 }

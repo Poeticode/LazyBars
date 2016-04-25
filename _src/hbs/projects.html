@@ -1,0 +1,15 @@
+{{> head }}
+    <body class="projects">
+    {{> nav }}  
+    <div class="container">
+        <div class="row">
+            {{#each projects}}
+            <div class="col c4">
+                <h3><a href="{{this.link}}">{{this.name}}</a></h3>
+                <p>{{this.description}}</p> 
+                <button class="btn btn-sm btn-b smooth"><a href="{{this.link}}">Visit Project</a></button>
+            </div> 
+            {{/each}} 
+        </div>
+    </div>
+{{> foot }} 

@@ -17,22 +17,22 @@ var sftp = require('gulp-sftp');
 var paths = {};
 
 /* SCSS/CSS files */
-paths.css = './_src/scss/app/*.scss';
-paths.cssVendor = './_src/scss/vendor/*.css';
+paths.css = '_src/scss/app/**/*.scss';
+paths.cssVendor = '_src/scss/vendor/**/*.css';
 
 /* Javascript files */
-paths.js = './_src/js/app/*.js';
-paths.jsVendor = './_src/js/vendor/*.js';
+paths.js = '_src/js/app/**/*.js';
+paths.jsVendor = '_src/js/vendor/**/*.js';
 
 /* Handlebar templating files */
-paths.hbs = './_src/hbs/*.html';
-paths.partials = './_src/hbs/partials/**/*.hbs';
-paths.helpers = './_src/hbs/helpers/*.js';
-paths.data = './_src/hbs/data/**/*.{js,json}';
+paths.hbs = '_src/hbs/**/*.html';
+paths.partials = '_src/hbs/partials/**/*.hbs';
+paths.helpers = '_src/hbs/helpers/*.js';
+paths.data = '_src/hbs/data/**/*.{js,json}';
 
 /* Miscellaneous files */
-paths.app = './_src/js/app/app.js';
-paths.dest = './dist';
+paths.app = '_src/js/app/app.js';
+paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
 
 /**
  * ES6 -> ES5 -> Uglified
@@ -90,7 +90,7 @@ gulp.task('handlebars', function (done) {
  * Upload to my server using the secret key
  */
 gulp.task('upload', function () {
-	return gulp.src('dist/**/*')
+	return gulp.src(paths.dest+'/**/*')
 		.pipe(sftp({
 			host: 'lunenburg.dreamhost.com',
 			auth: 'poetKey',
@@ -100,7 +100,7 @@ gulp.task('upload', function () {
 
 gulp.task('watch', function() {
     livereload.listen();
-    gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.js, ['scripts']);
+    gulp.watch([paths.css, paths.cssVendor], ['sass']);
+    gulp.watch([paths.js, paths.jsVendor], ['scripts']);
     gulp.watch([paths.hbs, paths.partials, paths.data, paths.helpers], ['handlebars']);
 });
