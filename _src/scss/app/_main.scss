@@ -1,0 +1,17 @@
+body {
+    margin: 0px;
+} 
+.nav, .nav .current, .nav a:hover {
+    background: #ef7f3f; 
+}
+.btn.btn-close {
+    background: #ef7f3f;
+}
+.nav {
+    div:before {
+        background: #ef7f3f;
+    } 
+    a { 
+        color: #efefef;
+    } 
+} 

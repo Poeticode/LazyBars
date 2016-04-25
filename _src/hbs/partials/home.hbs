@@ -1,0 +1,35 @@
+<div class="row">
+    {{#each examples.people}}
+    <div class="col c3">
+        {{ this.name }}
+    </div> 
+    {{/each}}
+</div>
+
+<table class="table">
+	<thead>
+		<tr>
+            <th>#</th>
+            {{#each examples.people.[0]}}
+            <th> 
+                {{capitalize @key}}
+            </th>
+            {{/each}}
+		</tr>
+	</thead>
+	<tbody>
+        {{#each examples.people}}
+		<tr> 
+            <td>{{ @index }}</td>
+			<td>{{capitalize this.name }}</td>
+			<td>{{ this.age }}</td> 
+            <td>{{#if this.dead }}
+                Most likely
+                {{else}}
+                No
+                {{/if}}
+            </td>
+		</tr>
+        {{/each}}
+	</tbody>
+</table>

@@ -1,0 +1,14 @@
+{
+    "title": "Beta",
+    "menu": [{
+        "name": "About",
+        "link": "about.html"
+    },  {
+        "name": "Posts",
+        "link": "posts.html",
+        "submenu": [
+                "nothing.html", 
+                "something.html"
+        ]
+    }]
+}

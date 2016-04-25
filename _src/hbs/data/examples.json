@@ -1,0 +1,19 @@
+{
+    "people": [{
+        "name": "Silas Tippens",
+        "age": 23,
+        "dead": false
+    },  {
+        "name": "Frederick Douglass",
+        "age": 67,
+        "dead": true
+    },  {
+        "name": "Fredfred Burger",
+        "age": 42,
+        "dead": true 
+    },  {
+        "name": "Tupac Shakur",
+        "age": 45,
+        "dead": false
+    }]
+} 
