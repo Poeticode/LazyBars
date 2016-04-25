@@ -1,11 +1,16 @@
 (function() {
     var test = () => console.log('test');
     test(); 
-    
-    if($('body').hasClass('threejs')) {
-        console.log("woah");
-        var threejs = require("./scene.js");
-        threejs();
-    }
+    console.log($('body').attr('class')); 
+    switch ($('body').attr("class")) {
+        case "threejs":
+            var threejs = require("./scene.js");
+            threejs();
+            break;
+        case "greensock":
+            var battleship = require("./battleship.js");
+            battleship();
+            break;
+    } 
     
 })();

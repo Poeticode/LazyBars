@@ -4,7 +4,7 @@ module.exports = function() {
     var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth, window.innerHeight * 0.9 );
     document.body.appendChild( renderer.domElement );
 
     var geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -13,11 +13,19 @@ module.exports = function() {
     scene.add( cube );
 
     camera.position.z = 5;
+    var rotateX = 0.1;
+
+    var buttons = $('button[data-rotate-x]');
+    buttons.each(function(index, el) {
+        $(el).on('click', function() {
+            rotateX += parseInt($(this).data('rotate-x'))*0.10;
+        });
+    });
 
     var render = function () {
         requestAnimationFrame( render );
-
-        cube.rotation.x += 0.1;
+ 
+        cube.rotation.x += Math.sin(rotateX);
         cube.rotation.y += 0.1;
 
         renderer.render(scene, camera);
