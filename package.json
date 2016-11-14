@@ -16,6 +16,7 @@
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.1",
+    "gulp-data": "^1.2.1",
     "gulp-hb": "^5.1.4",
     "gulp-livereload": "^3.8.1",
     "gulp-rename": "^1.2.2",

@@ -5,11 +5,11 @@
     console.log($('body').attr('class')); 
     switch ($('body').attr("class")) {
         case "threejs":
-            var threejs = require("./scene.js");
+            var threejs = require("./three_examples.js");
             threejs();
             break;
         case "greensock":
-            var battleship = require("./battleship.js");
+            var battleship = require("./gs_examples.js");
             battleship();
             break;
     }

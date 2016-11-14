@@ -17,7 +17,7 @@ var streamArray = require('stream-array');
 var through = require('through2');
 var File = require('vinyl');
 var fs = require('fs');
-
+var data = require('gulp-data');
 
 var paths = {};
 
@@ -39,34 +39,24 @@ paths.data = '_src/hbs/data/**/*.{js,json}';
 paths.app = '_src/js/app/app.js';
 paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
 
+/* Array of posts we'd like to loop through */
 var posts = JSON.parse(fs.readFileSync('_src/hbs/data/posts.json'));
 
-// gulp
-//         .src('_src/hbs/data/posts.json')
-//         .pipe(through.obj(function (file, enc, cb) {
-//             var name = path.parse(file.path).name;
-//             var data = JSON.parse(String(file.contents));
-
-gulp.task('createPosts', createPosts);
-
-function createPosts() {
-
+gulp.task('createPosts', function createPosts() {
     return streamArray(posts.posts)
         .pipe(through.obj(function (post, enc, cb) {
-            // var file = new File({
-            //     path: post.slug + '.html',
-            //     contents: new Buffer('{{post}}'),
-            //     data: post,
-            // });
-            // this.push(file);
-            // cb();
+            // Go through all the posts, give them access to all the templates/data
             var hbStream = hb()
                 .partials(paths.partials)
                 .helpers(paths.helpers)
                 .data(paths.data);
 
+            // Give the post its respective data and create the page with its template
             gulp
                 .src('_src/hbs/partials/post.hbs')
+                .pipe(data(function(file) {
+                    return post
+                }))
                 .pipe(hbStream)
                 .pipe(rename({
                     basename: post.slug,
@@ -76,12 +66,8 @@ function createPosts() {
                 .pipe(gulp.dest('dist/posts/'))
                 .on('error', cb)
                 .on('end', cb);
-        }))
-
-
-}
-
-
+        }));
+});
 
 /**
  * ES6 -> ES5 -> Uglified
@@ -121,7 +107,7 @@ gulp.task('sass', function() {
 });
 
 /**
- * Handlebar stuff, should be self-evident
+ * Regular Handlebar stuff, should be self-evident
  */
 gulp.task('handlebars', function (done) {
     var hbStream = hb()
