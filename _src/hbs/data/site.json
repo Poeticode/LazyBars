@@ -1,5 +1,7 @@
 {
     "title": "Beta",
+    "root": "/",
+    "tempRoot": "http://localhost/",
     "menu": [{
         "name": "About",
         "link": "about.html"

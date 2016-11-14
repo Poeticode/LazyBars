@@ -1,6 +1,7 @@
 (function() {
     var test = () => console.log('test');
-    test(); 
+    test();
+    
     console.log($('body').attr('class')); 
     switch ($('body').attr("class")) {
         case "threejs":
