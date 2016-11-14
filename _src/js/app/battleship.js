@@ -5,13 +5,8 @@ module.exports = function() {
     var cols = $board.data('cols');
     var $boxes = $board.find('.box');
     let initWidth = $board.width();
-    // $boxes.addClass('c'+( (12/cols)/2) );
-    // $boxes.width( (initWidth*.75)/cols );
-    // $boxes.height( $boxes.width() );
     $boxes.css({'width': 'calc(100%/12)'});
     $(window).smartresize(function() {
-        // let boardWidth = $board.width();
-        // $boxes.width( (boardWidth*.75)/cols );        
-        // $boxes.height( $boxes.width() );
+        console.log('wut');
     }); 
 }

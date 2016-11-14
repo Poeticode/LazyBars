@@ -12,6 +12,6 @@
             var battleship = require("./battleship.js");
             battleship();
             break;
-    } 
+    }
     
-})();
+})(); 

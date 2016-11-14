@@ -1,11 +1,5 @@
 {{> head }}
     <body class="greensock">
     {{> nav }}  
-    <div class="board" data-rows="{{battleship.rows}}" data-cols="{{battleship.cols}}">
-        {{#for 0 battleship.rows}}
-            {{#for 0 ../battleship.cols}} 
-                <div class="box">x</div>
-            {{/for}} 
-        {{/for}}
-    </div>
+    
 {{> foot }} 

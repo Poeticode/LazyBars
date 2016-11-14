@@ -1,0 +1,14 @@
+{{> head }}
+    <body class="index">
+    {{> nav }}  
+    <div class="container">
+        <div class="row">
+            {{#each posts.posts}}
+            <div class="col c4">
+                <h3>{{this.title}}</h3> by {{this.author}}
+                <p>{{this.content}}</p>  
+            </div>
+            {{/each}} 
+        </div>
+    </div>
+{{> foot }}

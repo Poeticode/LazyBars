@@ -6,10 +6,10 @@
             {{#each projects}}
             <div class="col c4">
                 <h3><a href="{{site.root}}{{this.link}}">{{this.name}}</a></h3>
-                <p>{{this.description}}</p> 
-                <button class="btn btn-sm btn-b smooth"><a href="{{site.root}}{{this.link}}">Visit Project</a></button>
-            </div> 
+                <p>{{this.description}}</p>  
+                <a href="{{site.root}}{{this.link}}"><button class="btn btn-sm btn-b smooth">Visit Project</button></a>
+            </div>
             {{/each}} 
         </div>
     </div>
-{{> foot }} 
+{{> foot }}

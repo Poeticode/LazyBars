@@ -13,6 +13,11 @@ var uglify      = require('gulp-uglify');
 var sourcemaps  = require('gulp-sourcemaps');
 var livereload  = require('gulp-livereload');
 var sftp = require('gulp-sftp');
+var streamArray = require('stream-array');
+var through = require('through2');
+var File = require('vinyl');
+var fs = require('fs');
+
 
 var paths = {};
 
@@ -34,6 +39,50 @@ paths.data = '_src/hbs/data/**/*.{js,json}';
 paths.app = '_src/js/app/app.js';
 paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
 
+var posts = JSON.parse(fs.readFileSync('_src/hbs/data/posts.json'));
+
+// gulp
+//         .src('_src/hbs/data/posts.json')
+//         .pipe(through.obj(function (file, enc, cb) {
+//             var name = path.parse(file.path).name;
+//             var data = JSON.parse(String(file.contents));
+
+gulp.task('createPosts', createPosts);
+
+function createPosts() {
+
+    return streamArray(posts.posts)
+        .pipe(through.obj(function (post, enc, cb) {
+            // var file = new File({
+            //     path: post.slug + '.html',
+            //     contents: new Buffer('{{post}}'),
+            //     data: post,
+            // });
+            // this.push(file);
+            // cb();
+            var hbStream = hb()
+                .partials(paths.partials)
+                .helpers(paths.helpers)
+                .data(paths.data);
+
+            gulp
+                .src('_src/hbs/partials/post.hbs')
+                .pipe(hbStream)
+                .pipe(rename({
+                    basename: post.slug,
+                    extname: '.html',
+                }))
+                .pipe(gulp.dest(paths.dest + '/posts/'))
+                .pipe(gulp.dest('dist/posts/'))
+                .on('error', cb)
+                .on('end', cb);
+        }))
+
+
+}
+
+
+
 /**
  * ES6 -> ES5 -> Uglified
  */
@@ -47,6 +96,7 @@ gulp.task('scripts', function(done) {
         .pipe(uglify({mangle: true}))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(paths.dest+'/js'))
+        .pipe(gulp.dest('dist/js/'))
         .pipe(livereload());
 });
 
@@ -66,6 +116,7 @@ gulp.task('sass', function() {
     .pipe(minifyCss())
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest(paths.dest+'/css/'))
+    .pipe(gulp.dest('dist/css/'))
     .pipe(livereload());
 });
 
@@ -82,6 +133,7 @@ gulp.task('handlebars', function (done) {
         .src(paths.hbs)
         .pipe(hbStream)
         .pipe(gulp.dest(paths.dest))
+        .pipe(gulp.dest('dist/'))
         .pipe(livereload())
         .on('end', done);
 });
@@ -102,5 +154,5 @@ gulp.task('watch', function() {
     livereload.listen();
     gulp.watch([paths.css, paths.cssVendor], ['sass']);
     gulp.watch([paths.js, paths.jsVendor], ['scripts']);
-    gulp.watch([paths.hbs, paths.partials, paths.data, paths.helpers], ['handlebars']);
+    gulp.watch([paths.hbs, paths.partials, paths.data, paths.helpers], ['handlebars', 'createPosts']);
 });
