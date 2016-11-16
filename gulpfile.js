@@ -110,11 +110,13 @@ gulp.task('sass', function() {
  * Regular Handlebar stuff, should be self-evident
  */
 gulp.task('handlebars', function (done) {
+    // get all them handlebars data for all of our streams
     var hbStream = hb()
         .partials(paths.partials)
         .helpers(paths.helpers)
         .data(paths.data);
         
+    // create the files for regular ol' templates
     gulp
         .src(paths.hbs)
         .pipe(hbStream)
@@ -122,6 +124,43 @@ gulp.task('handlebars', function (done) {
         .pipe(gulp.dest('dist/'))
         .pipe(livereload())
         .on('end', done);
+
+    // Give each post its respective data and create a page for each one with the poem template
+    // streamArray(posts.posts)
+    //     .pipe(through.obj(function (post, enc, cb) {
+    //         gulp
+    //             .src('_src/hbs/partials/post.hbs')
+    //             .pipe(data(function(file) {
+    //                 return post
+    //             }))
+    //             .pipe(hbStream)
+    //             .pipe(rename({
+    //                 basename: post.slug,
+    //                 extname: '.html',
+    //             }))
+    //             .pipe(gulp.dest(paths.dest + '/posts/'))
+    //             .pipe(gulp.dest('dist/posts/'))
+    //             .on('error', cb)
+    //             .on('end', cb);        
+    //     }));
+
+    streamArray(posts.chapters)
+        .pipe(through.obj(function(chapter, enc, cb) {
+            gulp
+                .src('_src/hbs/partials/chapter.hbs')
+                .pipe(data(function(file) {
+                    return chapter
+                }))
+                .pipe(hbStream)
+                .pipe(rename({
+                    basename: chapter.slug,
+                    extname: '.html'
+                }))
+                .pipe(gulp.dest(paths.dest + '/chapters/'))
+                .pipe(gulp.dest('dist/chapters'))
+                .on('error', cb)
+                .on('end', cb);
+        }));
 });
 
 /**
