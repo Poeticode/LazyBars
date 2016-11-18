@@ -6,15 +6,8 @@
         "name": "About",
         "link": "about.html"
     },  {
-        "name": "Posts",
-        "link": "posts.html",
-        "submenu": [{
-            "name": "Nothing",
-            "link": "nothing.html"
-        },  {
-            "name": "Something",
-            "link": "something.html"
-        }]
+        "name": "Book",
+        "link": "book.html"
     },  {
         "name": "Projects",
         "link": "projects.html",

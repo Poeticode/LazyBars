@@ -1,0 +1,29 @@
+[{
+    "name": "test",
+    "slug": "poem",
+    "dest": "posts/",
+    "partialsName": "post",
+    "title": "Awesome post",
+    "author": "PropheSi",
+    "content": "There once was a man from Peru",
+    "date": { 
+        "day": {
+            "numeric": 14,
+            "alpha": "Fourteenth"
+        },
+        "month": { 
+            "numberic": 11,
+            "alpha": "November"
+        },
+        "year": { 
+            "numberic": 2016
+        }
+    }, 
+    "tags": [
+        "funny", "comedy", "poetry"
+    ],
+    "subjects": "Humor",
+    "author_notes": "a lil quick lil ditty",
+    "hidden": false,
+    "comments": [0]
+}] 

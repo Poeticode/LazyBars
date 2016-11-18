@@ -13,11 +13,16 @@ var uglify      = require('gulp-uglify');
 var sourcemaps  = require('gulp-sourcemaps');
 var livereload  = require('gulp-livereload');
 var sftp = require('gulp-sftp');
-var streamArray = require('stream-array');
 var through = require('through2');
 var File = require('vinyl');
 var fs = require('fs');
 var data = require('gulp-data');
+var glob = require("glob")
+var gutil = require('gulp-util');
+var foreach = require('gulp-foreach');
+var flatmap = require('gulp-flatmap');
+var vfs = require('vinyl-fs');
+var debug = require('gulp-debug');
 
 var paths = {};
 
@@ -30,7 +35,7 @@ paths.js = '_src/js/app/**/*.js';
 paths.jsVendor = '_src/js/vendor/**/*.js';
 
 /* Handlebar templating files */
-paths.hbs = '_src/hbs/**/*.html';
+paths.hbs = '_src/hbs/*.html';
 paths.partials = '_src/hbs/partials/**/*.hbs';
 paths.helpers = '_src/hbs/helpers/*.js';
 paths.data = '_src/hbs/data/**/*.{js,json}';
@@ -39,35 +44,94 @@ paths.data = '_src/hbs/data/**/*.{js,json}';
 paths.app = '_src/js/app/app.js';
 paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
 
-/* Array of posts we'd like to loop through */
-var posts = JSON.parse(fs.readFileSync('_src/hbs/data/posts.json'));
+gulp.task('createDynamicPages', function createDynamicPages(done) {
+    var tasks = [];
 
-gulp.task('createPosts', function createPosts() {
-    return streamArray(posts.posts)
-        .pipe(through.obj(function (post, enc, cb) {
-            // Go through all the posts, give them access to all the templates/data
+    // Go through each JSON file in our special directory
+    glob.sync("_src/hbs/data/dynamic/*.json").forEach(function(filePath) {
+        // Read it as a JSON object
+        var jsonFile = JSON.parse(fs.readFileSync(filePath));
+
+        // They should all be arrays, so iterate over them
+        jsonFile.forEach(function(fileData) {
+            // create a file for each one, using the template + filename they specify
             var hbStream = hb()
                 .partials(paths.partials)
                 .helpers(paths.helpers)
                 .data(paths.data);
 
-            // Give the post its respective data and create the page with its template
-            gulp
-                .src('_src/hbs/partials/post.hbs')
-                .pipe(data(function(file) {
-                    return post
+            var currentTask = gulp.src("_src/hbs/partials/" + fileData.partialsName + ".hbs")
+                .pipe(data( function(file) { 
+                    return fileData
                 }))
                 .pipe(hbStream)
                 .pipe(rename({
-                    basename: post.slug,
-                    extname: '.html',
+                    basename: fileData.slug,
+                    extname: '.html'
                 }))
-                .pipe(gulp.dest(paths.dest + '/posts/'))
-                .pipe(gulp.dest('dist/posts/'))
-                .on('error', cb)
-                .on('end', cb);
-        }));
+                .pipe(gulp.dest(paths.dest + "/" + fileData.dest))
+                .pipe(gulp.dest('dist/' + fileData.dest))
+                .pipe(livereload());
+            tasks.push(currentTask);
+        });
+    });
+    return merge(tasks);
 });
+
+
+// gulp.task('createPosts', function createPosts() {
+//     // Go through all the posts, give them access to all the templates/data
+//     var hbStream = hb()
+//         .partials(paths.partials)
+//         .helpers(paths.helpers)
+//         .data(paths.data);
+
+//     return streamArray(posts.posts)
+//         .pipe(through.obj(function (post, enc, cb) {
+
+//             // Give the post its respective data and create the page with its template
+//             gulp
+//                 .src('_src/hbs/partials/post.hbs')
+//                 .pipe(data(function(file) {
+//                     return post
+//                 }))
+//                 .pipe(hbStream)
+//                 .pipe(rename({
+//                     basename: post.slug,
+//                     extname: '.html',
+//                 }))
+//                 .pipe(gulp.dest(paths.dest + '/posts/'))
+//                 .pipe(gulp.dest('dist/posts/'))
+//                 .on('error', cb)
+//                 .on('end', cb);
+//         }));
+// });
+
+// gulp.task('createChapters', function createChapters() {
+//     var hbStream = hb()
+//         .partials(paths.partials)
+//         .helpers(paths.helpers)
+//         .data(paths.data);
+
+//     return streamArray(posts.chapters)
+//         .pipe(through.obj(function(chapter, enc, cb) {
+//             gulp
+//                 .src('_src/hbs/partials/chapter.hbs')
+//                 .pipe(data(function(file) {
+//                     return chapter
+//                 }))
+//                 .pipe(hbStream)
+//                 .pipe(rename({
+//                     basename: chapter.slug,
+//                     extname: '.html'
+//                 }))
+//                 .pipe(gulp.dest(paths.dest + '/chapters/'))
+//                 .pipe(gulp.dest('dist/chapters'))
+//                 .on('error', cb)
+//                 .on('end', cb);
+//         }));
+// });
+
 
 /**
  * ES6 -> ES5 -> Uglified
@@ -144,23 +208,7 @@ gulp.task('handlebars', function (done) {
     //             .on('end', cb);        
     //     }));
 
-    streamArray(posts.chapters)
-        .pipe(through.obj(function(chapter, enc, cb) {
-            gulp
-                .src('_src/hbs/partials/chapter.hbs')
-                .pipe(data(function(file) {
-                    return chapter
-                }))
-                .pipe(hbStream)
-                .pipe(rename({
-                    basename: chapter.slug,
-                    extname: '.html'
-                }))
-                .pipe(gulp.dest(paths.dest + '/chapters/'))
-                .pipe(gulp.dest('dist/chapters'))
-                .on('error', cb)
-                .on('end', cb);
-        }));
+    
 });
 
 /**
@@ -179,5 +227,5 @@ gulp.task('watch', function() {
     livereload.listen();
     gulp.watch([paths.css, paths.cssVendor], ['sass']);
     gulp.watch([paths.js, paths.jsVendor], ['scripts']);
-    gulp.watch([paths.hbs, paths.partials, paths.data, paths.helpers], ['handlebars', 'createPosts']);
+    gulp.watch([paths.hbs, paths.partials, paths.data, paths.helpers], ['handlebars', 'createDynamicPages']);
 });

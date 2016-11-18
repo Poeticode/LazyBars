@@ -1,0 +1,20 @@
+{{> head }}
+    <body class="index">
+    {{> nav }}  
+    <div class="container">
+        <div class="row">
+            <ul> 
+            {{#each chapters}}
+                <li><a href="./chapters/{{this.slug}}.html">{{this.title}}</a>
+                    <ul>
+                        <li>
+                            <a href="./posts/{{lookup (lookup @root.posts.posts @index) 'slug'}}.html">{{lookup (lookup @root.posts.posts @index) 'title'}}</a>
+                            <i>by {{lookup (lookup @root.posts.posts @index) 'author'}}</i>
+                        </li> 
+                    </ul>
+                </li>
+            {{/each}} 
+            </ul>
+        </div> 
+    </div>
+{{> foot }}

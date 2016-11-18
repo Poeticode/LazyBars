@@ -1,0 +1,8 @@
+[{
+    "title": "Chapter One",
+    "slug": "chapterone",
+    "dest": "chapters/",
+    "partialsName": "chapter",
+    "description": "a wicked good chapter",
+    "posts": [0]
+}] 
