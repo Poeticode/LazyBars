@@ -8,8 +8,7 @@
                 <p>{{this.description}}</p> 
                 <ul>
                 {{#each this.posts }}
-                <!-- TODO: get @index to resolve (need to use a helper function) -->
-                    <li>{{capitalize @root.posts.posts.[0].title }}</li> 
+                    <li>{{lookup (lookup @root.dynamic.posts @index) 'title'}}</li> 
                 {{/each}} 
                 </ul>
             </div>

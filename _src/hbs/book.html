@@ -4,12 +4,12 @@
     <div class="container">
         <div class="row">
             <ul> 
-            {{#each chapters}}
+            {{#each dynamic.chapters}} 
                 <li><a href="./chapters/{{this.slug}}.html">{{this.title}}</a>
                     <ul>
                         <li>
-                            <a href="./posts/{{lookup (lookup @root.posts.posts @index) 'slug'}}.html">{{lookup (lookup @root.posts.posts @index) 'title'}}</a>
-                            <i>by {{lookup (lookup @root.posts.posts @index) 'author'}}</i>
+                            <a href="./posts/{{lookup (lookup @root.dynamic.posts @index) 'slug'}}.html">{{lookup (lookup @root.dynamic.posts @index) 'title'}}</a>
+                            <i>by {{lookup (lookup @root.dynamic.posts @index) 'author'}}</i>
                         </li> 
                     </ul>
                 </li>

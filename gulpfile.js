@@ -13,16 +13,13 @@ var uglify      = require('gulp-uglify');
 var sourcemaps  = require('gulp-sourcemaps');
 var livereload  = require('gulp-livereload');
 var sftp = require('gulp-sftp');
-var through = require('through2');
 var File = require('vinyl');
 var fs = require('fs');
 var data = require('gulp-data');
 var glob = require("glob")
 var gutil = require('gulp-util');
-var foreach = require('gulp-foreach');
-var flatmap = require('gulp-flatmap');
-var vfs = require('vinyl-fs');
-var debug = require('gulp-debug');
+var babel = require('gulp-babel');
+var amdOptimize = require("amd-optimize");
 
 var paths = {};
 
@@ -44,6 +41,9 @@ paths.data = '_src/hbs/data/**/*.{js,json}';
 paths.app = '_src/js/app/app.js';
 paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
 
+/**
+ * Create dynamic pages based on JSON files in our /hbs/data/dynamic directory
+ */
 gulp.task('createDynamicPages', function createDynamicPages(done) {
     var tasks = [];
 
@@ -78,72 +78,23 @@ gulp.task('createDynamicPages', function createDynamicPages(done) {
     return merge(tasks);
 });
 
-
-// gulp.task('createPosts', function createPosts() {
-//     // Go through all the posts, give them access to all the templates/data
-//     var hbStream = hb()
-//         .partials(paths.partials)
-//         .helpers(paths.helpers)
-//         .data(paths.data);
-
-//     return streamArray(posts.posts)
-//         .pipe(through.obj(function (post, enc, cb) {
-
-//             // Give the post its respective data and create the page with its template
-//             gulp
-//                 .src('_src/hbs/partials/post.hbs')
-//                 .pipe(data(function(file) {
-//                     return post
-//                 }))
-//                 .pipe(hbStream)
-//                 .pipe(rename({
-//                     basename: post.slug,
-//                     extname: '.html',
-//                 }))
-//                 .pipe(gulp.dest(paths.dest + '/posts/'))
-//                 .pipe(gulp.dest('dist/posts/'))
-//                 .on('error', cb)
-//                 .on('end', cb);
-//         }));
-// });
-
-// gulp.task('createChapters', function createChapters() {
-//     var hbStream = hb()
-//         .partials(paths.partials)
-//         .helpers(paths.helpers)
-//         .data(paths.data);
-
-//     return streamArray(posts.chapters)
-//         .pipe(through.obj(function(chapter, enc, cb) {
-//             gulp
-//                 .src('_src/hbs/partials/chapter.hbs')
-//                 .pipe(data(function(file) {
-//                     return chapter
-//                 }))
-//                 .pipe(hbStream)
-//                 .pipe(rename({
-//                     basename: chapter.slug,
-//                     extname: '.html'
-//                 }))
-//                 .pipe(gulp.dest(paths.dest + '/chapters/'))
-//                 .pipe(gulp.dest('dist/chapters'))
-//                 .on('error', cb)
-//                 .on('end', cb);
-//         }));
-// });
-
-
 /**
  * ES6 -> ES5 -> Uglified
  */
 gulp.task('scripts', function(done) {
-    return browserify({entries: paths.app, debug: true})
+
+    var vendorTask = gulp.src('./node_modules/three/build/three.min.js');
+
+    var appTask = browserify({entries: paths.app, debug: true})
         .transform("babelify", { presets: ["es2015"] })
         .bundle()
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
-        .pipe(uglify({mangle: true}))
+        .pipe(uglify({mangle: true}));
+
+    return merge(vendorTask, appTask)
+        .pipe(concat('app.js'))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(paths.dest+'/js'))
         .pipe(gulp.dest('dist/js/'))
@@ -188,26 +139,6 @@ gulp.task('handlebars', function (done) {
         .pipe(gulp.dest('dist/'))
         .pipe(livereload())
         .on('end', done);
-
-    // Give each post its respective data and create a page for each one with the poem template
-    // streamArray(posts.posts)
-    //     .pipe(through.obj(function (post, enc, cb) {
-    //         gulp
-    //             .src('_src/hbs/partials/post.hbs')
-    //             .pipe(data(function(file) {
-    //                 return post
-    //             }))
-    //             .pipe(hbStream)
-    //             .pipe(rename({
-    //                 basename: post.slug,
-    //                 extname: '.html',
-    //             }))
-    //             .pipe(gulp.dest(paths.dest + '/posts/'))
-    //             .pipe(gulp.dest('dist/posts/'))
-    //             .on('error', cb)
-    //             .on('end', cb);        
-    //     }));
-
     
 });
 
