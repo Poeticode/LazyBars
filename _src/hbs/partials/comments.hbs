@@ -1,1 +1,10 @@
-<div></div> 
+{{> head bodyClass="comment"}}
+    {{> nav }}  
+    <div class="container">
+        <div class="row">
+            <div class="col c4">
+                <h3>{{this.content}}</h3> by {{this.author}}  
+            </div>
+        </div>
+    </div>
+{{> foot }}

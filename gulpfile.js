@@ -19,7 +19,6 @@ var data = require('gulp-data');
 var glob = require("glob")
 var gutil = require('gulp-util');
 var babel = require('gulp-babel');
-var amdOptimize = require("amd-optimize");
 
 var paths = {};
 
