@@ -2,3 +2,4 @@
 node_modules/
 .ftppass
 dist/
+npm-debug.log
