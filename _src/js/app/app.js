@@ -18,7 +18,7 @@ import createHistory from 'history/createBrowserHistory';
             state: { some: 'state' }
         });
     };
-    test();
+   // test();
     
     console.log($('body').attr('class')); 
     switch ($('body').attr("class")) {
@@ -29,6 +29,10 @@ import createHistory from 'history/createBrowserHistory';
         case "greensock":
             var battleship = require("./gs_examples.js");
             battleship();
+            break;
+        case "cms":
+            var cms = require('./cms.js');
+            cms();
             break;
     } 
     

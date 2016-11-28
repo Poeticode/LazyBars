@@ -1,8 +1,8 @@
 [{
-    "name": "test",
+    "partialsName": "post",
     "slug": "poem",
     "dest": "posts/",
-    "partialsName": "post",
+    "name": "test",
     "title": "Awesome post",
     "author": "PropheSi",
     "content": "There once was a man from Peru",

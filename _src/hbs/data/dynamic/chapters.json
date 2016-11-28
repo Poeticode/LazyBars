@@ -1,8 +1,15 @@
 [{
-    "title": "Chapter One",
+    "partialsName": "chapter",
     "slug": "chapterone",
     "dest": "chapters/",
-    "partialsName": "chapter",
+    "title": "Chapter One",
     "description": "a wicked good chapter",
+    "posts": [0]
+}, {
+    "partialsName": "chapter",
+    "slug": "chaptertwo",
+    "dest": "chapters/",
+    "title": "Chapter Two",
+    "description": "another wicked good chapter",
     "posts": [0]
 }] 

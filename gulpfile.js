@@ -82,7 +82,10 @@ gulp.task('createDynamicPages', function createDynamicPages(done) {
  */
 gulp.task('scripts', function(done) {
 
-    var vendorTask = gulp.src('./node_modules/three/build/three.min.js');
+    var vendorTask = gulp.src([
+        './node_modules/three/build/three.min.js',
+        '_src/js/vendor/jsoneditor.js'
+    ]);
 
     var appTask = browserify({entries: paths.app, debug: true})
         .transform("babelify", { presets: ["es2015"] })
