@@ -156,7 +156,13 @@ gulp.task('upload', function () {
 		}));
 });
 
-gulp.task('watch', function() {
+var spawn = require('child_process').spawn;
+
+gulp.task('serve', function() {
+  spawn('node', ['server/server.js'], { stdio: 'inherit' });
+});
+
+gulp.task('watch', ['serve'], function() {
     livereload.listen();
     gulp.watch([paths.css, paths.cssVendor], ['sass']);
     gulp.watch([paths.js, paths.jsVendor], ['scripts']);

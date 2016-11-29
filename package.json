@@ -34,6 +34,10 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "history": "^4.4.0"
+    "gulp-run": "^1.7.1",
+    "history": "^4.4.0",
+    "http": "0.0.0",
+    "paperboy": "0.0.5",
+    "path": "^0.12.7"
   }
 }
