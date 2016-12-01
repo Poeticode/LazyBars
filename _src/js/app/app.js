@@ -18,9 +18,24 @@ import createHistory from 'history/createBrowserHistory';
             state: { some: 'state' }
         });
     };
-   // test();
-    
+  // test();
+
+    $('a').each(function(index, link) {
+        let $link = $(link);
+        link.addEventListener('click', function() {
+
+            // console.log(`${$link.data('url')} container`);
+            $('.container').addClass('remove');
+            $('#content').load(`${$link.data('url')} #ajax`, function( data ) {
+                $('.remove').remove();
+            });
+
+        });
+        console.log($link.data('url'));
+    });
+
     console.log($('body').attr('class')); 
+
     switch ($('body').attr("class")) {
         case "threejs":
             var threejs = require("./three_examples.js");
