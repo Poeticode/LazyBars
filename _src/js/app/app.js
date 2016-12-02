@@ -12,11 +12,9 @@ import localforage from 'localforage';
         if (action === "POP") {
             localforage.getItem(urlToGet + "_" + elementToReplace, function(err, pageState) {
                 if (!err) {
-                    console.log('loading cached shit');
                     require('./modules/loadelement.js')(history, pageState.element, pageState.content);
                 } else {
                     // ajax it in then load it up
-                    console.log('ajaxing in shit');
                     require('./modules/goto.js')(history, location.pathname);
                 } 
             });
