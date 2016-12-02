@@ -31,10 +31,14 @@ paths.js = '_src/js/app/**/*.js';
 paths.jsVendor = '_src/js/vendor/**/*.js';
 
 /* Handlebar templating files */
-paths.hbs = '_src/hbs/*.html';
 paths.partials = '_src/hbs/partials/**/*.hbs';
 paths.helpers = '_src/hbs/helpers/*.js';
 paths.data = '_src/hbs/data/**/*.{js,json}';
+paths.hbs = [
+    '_src/hbs/**/*.html', 
+    '!'+paths.partials,
+    '!'+paths.helpers,
+    '!'+paths.data];
 
 /* Miscellaneous files */
 paths.app = '_src/js/app/app.js';
@@ -84,7 +88,7 @@ gulp.task('scripts', function(done) {
 
     var vendorTask = gulp.src([
         './node_modules/three/build/three.min.js',
-        '_src/js/vendor/jsoneditor.js'
+        '_src/js/vendor/*.js'
     ]);
 
     var appTask = browserify({entries: paths.app, debug: true})
@@ -93,7 +97,7 @@ gulp.task('scripts', function(done) {
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
-        .pipe(uglify({mangle: true}));
+        //.pipe(uglify({mangle: true}));
 
     return merge(vendorTask, appTask)
         .pipe(concat('app.js'))
