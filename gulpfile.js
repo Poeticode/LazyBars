@@ -97,7 +97,7 @@ gulp.task('scripts', function(done) {
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
-        //.pipe(uglify({mangle: true}));
+        .pipe(uglify({mangle: true}));
 
     return merge(vendorTask, appTask)
         .pipe(concat('app.js'))
