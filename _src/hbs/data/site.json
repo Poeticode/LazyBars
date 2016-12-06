@@ -1,22 +1,5 @@
 {
-    "title": "Beta",
+    "title": "Festival of the Drought",
     "root": "/",
-    "tempRoot": "http://localhost/",
-    "menu": [{
-        "name": "About",
-        "link": "about.html"
-    },  {
-        "name": "Book",
-        "link": "book.html"
-    },  {
-        "name": "Projects",
-        "link": "projects.html",
-        "submenu": [{
-            "name": "Greensock",
-            "link": "projects/greensock.html"
-        },  {
-            "name": "ThreeJS",
-            "link": "projects/threejs.html"
-        }]
-    }]
-}
+    "tempRoot": "http://localhost/"
+} 

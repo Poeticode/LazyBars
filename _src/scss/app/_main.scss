@@ -15,9 +15,14 @@ body {
         color: #efefef;
     } 
 }
-h1, h2, h3, .btn { 
-    a { 
-        color: initial;
-        text-decoration: none;
-    } 
-}
+h1, h2, h3, {
+    &.heading--no-padding-bottom {
+        margin-bottom: 0px;
+    }
+    .btn { 
+        a { 
+            color: initial;
+            text-decoration: none;
+        } 
+    }
+} 

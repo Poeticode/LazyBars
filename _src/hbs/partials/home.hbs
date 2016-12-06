@@ -1,27 +1,18 @@
-<table class="table">
-	<thead>
-		<tr>
-            <th>#</th>
-            {{#each examples.people.[0]}}
-            <th> 
-                {{capitalize @key}}
-            </th>
-            {{/each}}
-		</tr>
-	</thead>
-	<tbody>
-        {{#each examples.people}}
-		<tr> 
-            <td>{{ @index }}</td>
-			<td>{{capitalize this.name }}</td>
-			<td>{{ this.age }}</td> 
-            <td>{{#if this.dead }}
-                Most likely
-                {{else}}
-                No
-                {{/if}}
-            </td>
-		</tr>
+<div class="row">
+    <div class="col c4">	&ensp; </div>
+    <div class="col c4">
+        <h2 class="heading--no-padding-bottom">Setlist:</h2>
+    </div>
+    <div class="col c4">	&ensp; </div>
+</div>
+<div class="row">
+    <div class="col c4">	&ensp; </div>
+    <div class="col c4">
+    <ol>
+        {{#each dynamic.poetry }}
+            <li><a href="{{../site.root}}poetry/{{ this.slug }}.html">{{ this.title }}</a></li> 
         {{/each}}
-	</tbody>
-</table>
+    </ol>
+    </div>
+    <div class="col c4">	&ensp; </div>
+</div>

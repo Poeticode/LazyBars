@@ -10,7 +10,8 @@ module.exports = function(history, urlToGet, elementToReplace) {
             if (xhr.status === 200) {
                 // auhohoho WE GOT THE DATA BOYZ
                 var $receivedElement = $(xhr.responseXML).find(elementToReplace);
-
+                console.log('is it loading?');
+                console.log($receivedElement);
                 require('./loadelement.js')(history, elementToReplace, $receivedElement);
 
                 if (elementToReplace === 'body') {
@@ -18,12 +19,12 @@ module.exports = function(history, urlToGet, elementToReplace) {
                         pathname: urlToGet,
                     });
                 }
-                localforage.setItem(urlToGet + "_" + elementToReplace, {element: elementToReplace, content: $receivedElement});
+                //localforage.setItem(urlToGet + "_" + elementToReplace, {element: elementToReplace, content: $receivedElement});
             }
         }
     }; 
 
     xhr.send(null);
-
+ 
 
 }

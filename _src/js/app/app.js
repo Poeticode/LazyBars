@@ -10,14 +10,15 @@ import localforage from 'localforage';
         console.log(`The last navigation action was ${action}`);
         
         if (action === "POP") {
-            localforage.getItem(urlToGet + "_" + elementToReplace, function(err, pageState) {
-                if (!err) {
-                    require('./modules/loadelement.js')(history, pageState.element, pageState.content);
-                } else {
+            //localforage.getItem(urlToGet + "_" + elementToReplace, function(err, pageState) {
+                //if (!err) {
+                    //require('./modules/loadelement.js')(history, pageState.element, pageState.content);
+                //} else {
                     // ajax it in then load it up
-                    require('./modules/goto.js')(history, location.pathname);
-                } 
-            });
+                    console.log(location.pathname);
+                    require('./modules/goto.js')(history, location.pathname,'body');
+                //} 
+            //});
         }
     });
 
