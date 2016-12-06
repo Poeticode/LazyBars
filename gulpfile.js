@@ -19,6 +19,7 @@ var data = require('gulp-data');
 var glob = require("glob")
 var gutil = require('gulp-util');
 var babel = require('gulp-babel');
+const readAsJSON = (path) => JSON.parse(fs.readFileSync(path, 'utf8')); 
 
 var paths = {};
 
@@ -152,11 +153,12 @@ gulp.task('handlebars', function (done) {
  * Upload to my server using the secret key
  */
 gulp.task('upload', function () {
+    var creds = readAsJSON('./.ftpdest');
 	return gulp.src(paths.dest+'/**/*')
 		.pipe(sftp({
-			host: 'lunenburg.dreamhost.com',
+			host: creds.host,
 			auth: 'poetKey',
-            remotePath: '/home/silastippens/beta.poeti.codes/'
+            remotePath: creds.remotePath
 		}));
 });
 

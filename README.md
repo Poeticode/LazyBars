@@ -50,10 +50,11 @@ Any changes in `_src/` will be built & delivered to `dist/`, which in turn is li
 
 ##### SFTP Upload:
 
-* Create `.ftppass` at the root of your folder
-* Enter your credentials.
+* Create `.ftppass` at the root of your folder, with your sftp auth info.
+  * [Gulp-SFTP](https://www.npmjs.com/package/gulp-sftp) has examples at the bottom.
+* Create `.ftpdest` at the root of your folder, with your host/remotePath details.
+  * Or just enter them directly in the gulpfile.
 * Modify the **upload** task in `gulpfile.js` to use those credentials.
-* [Gulp-SFTP](https://www.npmjs.com/package/gulp-sftp) has examples at the bottom.
 
 ```sh
 $ gulp upload
