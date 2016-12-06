@@ -87,7 +87,7 @@ gulp.task('createDynamicPages', function createDynamicPages(done) {
 gulp.task('scripts', function(done) {
 
     var vendorTask = gulp.src([
-        './node_modules/three/build/three.min.js',
+        // './node_modules/three/build/three.min.js',
         '_src/js/vendor/*.js'
     ]);
 
@@ -95,13 +95,13 @@ gulp.task('scripts', function(done) {
         .transform("babelify", { presets: ["es2015"] })
         .bundle()
         .pipe(source('app.js'))
-        .pipe(buffer())
-        .pipe(sourcemaps.init())
-        .pipe(uglify({mangle: true}));
+        .pipe(buffer());
 
     return merge(vendorTask, appTask)
+        // .pipe(sourcemaps.init({ loadMaps: true}))
         .pipe(concat('app.js'))
-        .pipe(sourcemaps.write('./maps'))
+        // .pipe(uglify({mangle: true}))
+        // .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.dest+'/js'))
         .pipe(gulp.dest('dist/js/'))
         .pipe(livereload());
@@ -160,6 +160,17 @@ gulp.task('upload', function () {
 		}));
 });
 
+gulp.task('generate-service-worker', function(callback) {
+  var path = require('path');
+  var swPrecache = require('sw-precache');
+  var rootDir = 'dist';
+
+  swPrecache.write(path.join(rootDir, 'service-worker.js'), {
+    staticFileGlobs: [rootDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}'],
+    stripPrefix: rootDir
+  }, callback);
+});
+
 var spawn = require('child_process').spawn;
 
 gulp.task('serve', function() {
@@ -171,4 +182,5 @@ gulp.task('watch', ['serve'], function() {
     gulp.watch([paths.css, paths.cssVendor], ['sass']);
     gulp.watch([paths.js, paths.jsVendor], ['scripts']);
     gulp.watch([paths.hbs, paths.partials, paths.data, paths.helpers], ['handlebars', 'createDynamicPages']);
+    gulp.watch('dist/**/*', ['generate-service-worker']);
 });

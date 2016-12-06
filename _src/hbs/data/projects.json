@@ -1,9 +1,0 @@
-[{
-    "name": "ThreeJS",
-    "link": "projects/threejs.html",
-    "description": "These are simply random tomfoolery projects using threejs, which brings 3D into the browser."
-},  {
-    "name": "GreenSock",
-    "link": "projects/greensock.html", 
-    "description": "Greensock is a powerful animation library that I like to play with."
-}]

@@ -1,6 +1,6 @@
 module.exports = function(history, urlToGet, elementToReplace) {
 
-    // send a damn ajax request. 
+    // it's a full page load, so send an xhr
     var xhr = new XMLHttpRequest();
     xhr.open('GET', urlToGet, true);
     xhr.responseType = 'document'; // make sure we read it as a document
@@ -8,23 +8,15 @@ module.exports = function(history, urlToGet, elementToReplace) {
     xhr.onload = function () { 
         if (xhr.readyState === xhr.DONE) { 
             if (xhr.status === 200) {
-                // auhohoho WE GOT THE DATA BOYZ
                 var $receivedElement = $(xhr.responseXML).find(elementToReplace);
-                console.log('is it loading?');
-                console.log($receivedElement);
                 require('./loadelement.js')(history, elementToReplace, $receivedElement);
-
-                if (elementToReplace === 'body') {
-                    history.push({
-                        pathname: urlToGet,
-                    });
-                }
-                //localforage.setItem(urlToGet + "_" + elementToReplace, {element: elementToReplace, content: $receivedElement});
+                history.push({
+                    pathname: urlToGet, 
+                    state: { element: elementToReplace }
+                });
             }
         }
     }; 
-
     xhr.send(null);
  
-
 }
