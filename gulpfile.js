@@ -19,6 +19,8 @@ var data = require('gulp-data');
 var glob = require("glob")
 var gutil = require('gulp-util');
 var babel = require('gulp-babel');
+var runSequence = require('run-sequence');
+var del = require('del');
 const readAsJSON = (path) => JSON.parse(fs.readFileSync(path, 'utf8')); 
 
 var paths = {};
@@ -179,7 +181,15 @@ gulp.task('serve', function() {
   spawn('node', ['server/server.js'], { stdio: 'inherit' });
 });
 
-gulp.task('watch', ['serve'], function() {
+gulp.task('clean', function() {
+    return del('dist/**/*');
+});
+
+gulp.task('build', ['clean'], function(cb) {
+    runSequence(['sass', 'scripts', 'handlebars', 'createDynamicPages'], 'generate-service-worker', cb);
+});
+
+gulp.task('watch', ['build', 'serve'], function() {
     livereload.listen();
     gulp.watch([paths.css, paths.cssVendor], ['sass']);
     gulp.watch([paths.js, paths.jsVendor], ['scripts']);
