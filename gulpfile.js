@@ -117,7 +117,7 @@ gulp.task('scripts', function(done) {
  * SASS -> CSS, then concat vendor css & minify
  */
 gulp.task('sass', function() {
-  var custom = gulp.src(paths.css)
+  var custom = gulp.src(paths.css, {base: '_src'})
     .pipe(sass())
     .on('error', sass.logError);
     

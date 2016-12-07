@@ -1,28 +1,3 @@
-body {
-    margin: 0px;
-} 
-.nav, .nav .current, .nav a:hover {
-    background: #9ABFCB; 
-} 
-.btn.btn-close {
-    background: #9ABFCB;
-}
-.nav {
-    div:before {
-        background: #9ABFCB;
-    } 
-    a { 
-        color: #efefef;
-    } 
-}
-h1, h2, h3, {
-    &.heading--no-padding-bottom {
-        margin-bottom: 0px;
-    }
-    .btn { 
-        a { 
-            color: initial;
-            text-decoration: none;
-        } 
-    }
+.center-cell { 
+    margin: 0 auto;
 } 
