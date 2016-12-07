@@ -116,11 +116,11 @@ gulp.task('scripts', function(done) {
 gulp.task('sass', function() {
   var custom = gulp.src(paths.css)
     .pipe(sass())
-    .on('error', sass.logError)
+    .on('error', sass.logError);
     
   var vendor = gulp.src(paths.cssVendor);
   
-  return merge(custom, vendor)
+  return merge(vendor, custom)
     .pipe(concat('style.css'))
     .pipe(gulp.dest(paths.dest+'/css/'))
     .pipe(minifyCss())
@@ -182,7 +182,13 @@ gulp.task('serve', function() {
 });
 
 gulp.task('clean', function() {
-    return del('dist/**/*');
+    return del([
+        'dist/**/*',
+        '!dist',
+        '!dist/imgs',
+        '!dist/imgs/**/*',
+        '!dist/manifest.json'
+    ]);
 });
 
 gulp.task('build', ['clean'], function(cb) {
