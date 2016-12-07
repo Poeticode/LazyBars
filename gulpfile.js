@@ -156,7 +156,7 @@ gulp.task('handlebars', function (done) {
  */
 gulp.task('upload', function () {
     var creds = readAsJSON('./.ftpdest');
-	return gulp.src('dest/**/*')
+	return gulp.src('dist/**/*')
 		.pipe(sftp({
 			host: creds.host,
 			auth: 'poetKey',
