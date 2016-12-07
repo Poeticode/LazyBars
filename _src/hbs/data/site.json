@@ -1,5 +1,9 @@
 {
-    "title": "Festival of Drought",
+    "title": "Festival",
     "root": "/",
-    "tempRoot": "http://localhost/"
+    "tempRoot": "http://localhost/",
+    "menu": [{
+        "name": "setlists",
+        "link": "index.html"
+    }]
 } 
