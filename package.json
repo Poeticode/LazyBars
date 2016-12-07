@@ -27,22 +27,15 @@
     "gulp-sftp": "^0.1.5",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
-    "gulp-util": "^3.0.7",
+    "history": "^4.4.0",
     "merge-stream": "^1.0.0",
     "run-sequence": "^1.2.2",
     "sw-precache": "^4.2.3",
-    "three": "^0.82.1",
-    "vinyl": "^2.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "express": "^4.14.0",
-    "gulp-run": "^1.7.1",
-    "history": "^4.4.0",
-    "http": "0.0.0",
-    "localforage": "^1.4.3",
-    "paperboy": "0.0.5",
     "path": "^0.12.7"
   }
 }

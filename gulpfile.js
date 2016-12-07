@@ -13,11 +13,9 @@ var uglify      = require('gulp-uglify');
 var sourcemaps  = require('gulp-sourcemaps');
 var livereload  = require('gulp-livereload');
 var sftp = require('gulp-sftp');
-var File = require('vinyl');
 var fs = require('fs');
 var data = require('gulp-data');
 var glob = require("glob")
-var gutil = require('gulp-util');
 var babel = require('gulp-babel');
 var runSequence = require('run-sequence');
 var del = require('del');
@@ -44,6 +42,11 @@ paths.hbs = [
     '!'+paths.data];
 
 /* Miscellaneous files */
+paths.static = [
+    '_src/manifest.json',
+    '_src/fonts/**/*',
+    '_src/imgs/**/*'
+];
 paths.app = '_src/js/app/app.js';
 paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
 
@@ -183,16 +186,17 @@ gulp.task('serve', function() {
 
 gulp.task('clean', function() {
     return del([
-        'dist/**/*',
-        '!dist',
-        '!dist/imgs',
-        '!dist/imgs/**/*',
-        '!dist/manifest.json'
+        'dist/**/*'
     ]);
 });
 
+gulp.task('moveStatic', function() {
+    return gulp.src(paths.static, {base: '_src'})
+        .pipe(gulp.dest('dist/'));
+});
+
 gulp.task('build', ['clean'], function(cb) {
-    runSequence(['sass', 'scripts', 'handlebars', 'createDynamicPages'], 'generate-service-worker', cb);
+    runSequence(['sass', 'scripts', 'handlebars', 'createDynamicPages', 'moveStatic'], 'generate-service-worker', cb);
 });
 
 gulp.task('watch', ['build', 'serve'], function() {
