@@ -19,6 +19,7 @@ var glob = require("glob")
 var babel = require('gulp-babel');
 var runSequence = require('run-sequence');
 var del = require('del');
+var bump = require('gulp-bump');
 const readAsJSON = (path) => JSON.parse(fs.readFileSync(path, 'utf8')); 
 
 var paths = {};
@@ -34,7 +35,7 @@ paths.jsVendor = '_src/js/vendor/**/*.js';
 /* Handlebar templating files */
 paths.partials = '_src/hbs/partials/**/*.hbs';
 paths.helpers = '_src/hbs/helpers/*.js';
-paths.data = '_src/hbs/data/**/*.{js,json}';
+paths.data = ['_src/hbs/data/**/*.{js,json}', './package.json'];
 paths.hbs = [
     '_src/hbs/**/*.html', 
     '!'+paths.partials,
@@ -197,6 +198,12 @@ gulp.task('moveStatic', function() {
 
 gulp.task('build', ['clean'], function(cb) {
     runSequence(['sass', 'scripts', 'handlebars', 'createDynamicPages', 'moveStatic'], 'generate-service-worker', cb);
+});
+
+gulp.task('bump', function() {
+    return gulp.src('./package.json')
+        .pipe(bump())
+        .pipe(gulp.dest('./'));
 });
 
 gulp.task('watch', ['build', 'serve'], function() {
