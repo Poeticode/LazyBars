@@ -20,7 +20,9 @@ var babel = require('gulp-babel');
 var runSequence = require('run-sequence');
 var del = require('del');
 var bump = require('gulp-bump');
+var gutil = require('gulp-util');
 const readAsJSON = (path) => JSON.parse(fs.readFileSync(path, 'utf8')); 
+var packageVersion = readAsJSON('./package.json').version;
 
 var paths = {};
 
@@ -35,7 +37,7 @@ paths.jsVendor = '_src/js/vendor/**/*.js';
 /* Handlebar templating files */
 paths.partials = '_src/hbs/partials/**/*.hbs';
 paths.helpers = '_src/hbs/helpers/*.js';
-paths.data = ['_src/hbs/data/**/*.{js,json}', './package.json'];
+paths.data = '_src/hbs/data/**/*.{js,json}';
 paths.hbs = [
     '_src/hbs/**/*.html', 
     '!'+paths.partials,
@@ -45,6 +47,7 @@ paths.hbs = [
 /* Miscellaneous files */
 paths.static = [
     '_src/manifest.json',
+    '_src/firebase-pusher.js',
     '_src/fonts/**/*',
     '_src/imgs/**/*'
 ];
@@ -68,7 +71,10 @@ gulp.task('createDynamicPages', function createDynamicPages(done) {
             var hbStream = hb()
                 .partials(paths.partials)
                 .helpers(paths.helpers)
-                .data(paths.data);
+                .data(paths.data)
+                .data({
+                    version: packageVersion
+                });
 
             var currentTask = gulp.src("_src/hbs/partials/" + fileData.partialsName + ".hbs")
                 .pipe(data( function(file) { 
@@ -109,6 +115,7 @@ gulp.task('scripts', function(done) {
         .pipe(concat('app.js'))
         // .pipe(uglify({mangle: true}))
         // .pipe(sourcemaps.write('./'))
+        .pipe(rename({ extname : '.'+packageVersion+'.js'}))
         .pipe(gulp.dest(paths.dest+'/js'))
         .pipe(gulp.dest('dist/js/'))
         .pipe(livereload());
@@ -118,17 +125,16 @@ gulp.task('scripts', function(done) {
  * SASS -> CSS, then concat vendor css & minify
  */
 gulp.task('sass', function() {
+  var vendor = gulp.src(paths.cssVendor);
   var custom = gulp.src(paths.css, {base: '_src'})
     .pipe(sass())
     .on('error', sass.logError);
-    
-  var vendor = gulp.src(paths.cssVendor);
   
   return merge(vendor, custom)
     .pipe(concat('style.css'))
     .pipe(gulp.dest(paths.dest+'/css/'))
     .pipe(minifyCss())
-    .pipe(rename({ extname: '.min.css' }))
+    .pipe(rename({ extname: '.'+packageVersion+'.min.css' }))
     .pipe(gulp.dest(paths.dest+'/css/'))
     .pipe(gulp.dest('dist/css/'))
     .pipe(livereload());
@@ -142,7 +148,10 @@ gulp.task('handlebars', function (done) {
     var hbStream = hb()
         .partials(paths.partials)
         .helpers(paths.helpers)
-        .data(paths.data);
+        .data(paths.data)
+        .data({
+            version: packageVersion
+        });
         
     // create the files for regular ol' templates
     gulp
@@ -175,7 +184,12 @@ gulp.task('generate-service-worker', function(callback) {
 
   swPrecache.write(path.join(rootDir, 'service-worker.js'), {
     staticFileGlobs: [rootDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}'],
-    stripPrefix: rootDir
+    stripPrefix: rootDir,
+    importScripts: [
+        // 'https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js',
+        // 'https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js',
+        './firebase-pusher.js'
+    ]
   }, callback);
 });
 
@@ -196,7 +210,7 @@ gulp.task('moveStatic', function() {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('build', ['clean'], function(cb) {
+gulp.task('build', ['clean', 'bump'], function(cb) {
     runSequence(['sass', 'scripts', 'handlebars', 'createDynamicPages', 'moveStatic'], 'generate-service-worker', cb);
 });
 

@@ -1,13 +1,9 @@
 {{> head bodyClass="poem"}}
     {{> nav }}  
-    <div class="container">
-        <div class="row">
-            <div class="col c4">&#8674; </div>
-            <div class="col c4">
-                <h3>{{this.title}}</h3>
-                <p>{{{this.html_content}}}</p>  
-            </div>
-            </div class="col c4">&#8674; </div>
-        </div>
-    </div> 
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col center-cell">
+        <h3>{{this.title}}</h3>
+        <p>{{{this.html_content}}}</p>  
+    </div>
+</div> 
 {{> foot }} 
