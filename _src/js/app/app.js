@@ -26,21 +26,14 @@ import createHistory from 'history/createBrowserHistory';
             // });
             // TODO(developer): Retrieve an Instance ID token for use with FCM.
             // ...
-        })
-        .catch(function(err) {
-            console.log('Unable to get permission to notify.', err);
-            // document.querySelector('.mdl-js-snackbar').MaterialSnackbar.showSnackbar({
-            //     message: 'Biscuits, seems that I can\'t send Push notifications!'
-            // });
-        });
-
-    // Get Instance ID token. Initially this makes a network call, once retrieved
-    // subsequent calls to getToken will return from cache.
-    messaging.getToken()
-        .then(function(currentToken) {
+            return messaging.getToken();
+        }).then(function(currentToken) {
+            // Get Instance ID token. Initially this makes a network call, once retrieved
+            // subsequent calls to getToken will return from cache.
             if (currentToken) {
                 //sendTokenToServer(currentToken);
                 //updateUIForPushEnabled(currentToken);
+                console.log('got the token!');
                 console.log(currentToken);
             } else {
                 // Show permission request.
@@ -55,12 +48,23 @@ import createHistory from 'history/createBrowserHistory';
             // showToken('Error retrieving Instance ID token. ', err);
             // setTokenSentToServer(false);
         });
+
+        // .catch(function(err) {
+        //     console.log('Unable to get permission to notify.', err);
+        //     // document.querySelector('.mdl-js-snackbar').MaterialSnackbar.showSnackbar({
+        //     //     message: 'Biscuits, seems that I can\'t send Push notifications!'
+        //     // });
+        // });
+
+
+        
     
     // Callback fired if Instance ID token is updated.
     messaging.onTokenRefresh(function() {
         messaging.getToken()
         .then(function(refreshedToken) {
             console.log('Token refreshed.');
+            console.log(refreshedToken);
             // Indicate that the new Instance ID token has not yet been sent to the
             // app server.
             // setTokenSentToServer(false);
@@ -78,7 +82,7 @@ import createHistory from 'history/createBrowserHistory';
     });
 
     messaging.onMessage(function(payload) {
-        console.log(`onMessage: ${payload}`);
+        console.log('onMessage. ',payload);
         // document.querySelector('.mdl-js-snackbar').MaterialSnackbar.showSnackbar({
         //     message: payload
         // });
