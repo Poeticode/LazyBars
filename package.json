@@ -1,6 +1,6 @@
 {
   "name": "betacodes",
-  "version": "1.0.13",
+  "version": "1.0.19",
   "description": "Beta site",
   "main": "./dist/index.html",
   "scripts": {
@@ -40,6 +40,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "firebase": "^3.6.3",
+    "localforage": "^1.4.3",
     "path": "^0.12.7"
   }
 }

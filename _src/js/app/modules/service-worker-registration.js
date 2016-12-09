@@ -22,7 +22,7 @@ module.exports = function(notification, messaging) {
         // See https://github.com/slightlyoff/ServiceWorker/issues/468
         navigator.serviceWorker.register('service-worker.js').then(function(reg) {
             // updatefound is fired if service-worker.js changes.
-            messaging.useServiceWorker(reg);
+            // messaging.useServiceWorker(reg);
             reg.onupdatefound = function() {
                 // The updatefound event implies that reg.installing is set; see
                 // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-container-updatefound-event

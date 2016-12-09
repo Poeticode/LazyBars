@@ -14,7 +14,7 @@
     // Retrieve an instance of Firebase Messaging so that it can handle background
     // messages.
     const messaging = firebase.messaging();
-    messaging.useServiceWorker(self);
+    // messaging.useServiceWorker(self.registration());
 
     messaging.setBackgroundMessageHandler(function(payload) {
         const title = 'Hello World';

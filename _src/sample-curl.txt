@@ -1,0 +1,9 @@
+curl -X POST -H "Authorization: key=AAAADYCyS_0:APA91bFFlt-RItw0u5eY3PkdD_hQowiNSiAOI2PyVL999pu1DArP39v3ttFJNuLGm0P3tEjIW1Ymae4ICoQ-Gk6L0QX_Z91KUzF1Y8f4zUdrFEq2LJ5-aKD3v-oQu-EP4vYGZMgoTDZnjqi5XwpzrZ2eguG_EmKTxw" -H "Content-Type: application/json" -d '{
+  "notification": {
+    "title": "Hello World!",
+    "body": "This is my first push notification. I pray to God it works.",
+    "icon": "/dist/imgs/poeticon.png",
+    "click_action": "beta.poeti.codes"
+  },
+  "to": "c4C1Cc9XryE:APA91bEYwouK9zWaNzKGnrTdCa83gDoNMn3___CZydtY0nGAK_8m4zKZpicAXe3ebkrAOYGnQW1jrps2goqBCUNEwn41xgTwVxEcf4BEB_gFkVJtJwR0qvDwE_wzZbhxZ3aENEt2yAeB"
+}' "https://fcm.googleapis.com/fcm/send"

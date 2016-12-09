@@ -47,7 +47,7 @@ paths.hbs = [
 /* Miscellaneous files */
 paths.static = [
     '_src/manifest.json',
-    '_src/firebase-pusher.js',
+    '_src/firebase-messaging-sw.js',
     '_src/fonts/**/*',
     '_src/imgs/**/*'
 ];
@@ -184,12 +184,12 @@ gulp.task('generate-service-worker', function(callback) {
 
   swPrecache.write(path.join(rootDir, 'service-worker.js'), {
     staticFileGlobs: [rootDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}'],
-    stripPrefix: rootDir,
-    importScripts: [
-        // 'https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js',
-        // 'https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js',
-        './firebase-pusher.js'
-    ]
+    stripPrefix: rootDir
+    // importScripts: [
+    //     // 'https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js',
+    //     // 'https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js',
+    //     './firebase-pusher.js'
+    // ]
   }, callback);
 });
 

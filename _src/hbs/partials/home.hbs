@@ -1,3 +1,52 @@
+<div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+
+    <!-- Container for the Table of content -->
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+        <!-- div to display the generated Instance ID token -->
+        <div id="token_div" style="display: none;">
+        <h4>Instance ID Token</h4>
+        <p id="token" style="word-break: break-all;"></p>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                id="delete-token-button" >Delete Token</button>
+        </div>
+        <!-- div to display the UI to allow the request for permission to
+            notify the user. This is shown if the app has not yet been
+            granted permission to notify. -->
+        <div id="permission_div" style="display: none;">
+        <h4>Needs Permission</h4>
+        <p id="token"></p>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                id="permission-button">Request Permission</button>
+        </div>
+        <!-- div to display messages received by this app. -->
+        <div id="messages"></div>
+    </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--4-col center-cell">
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
+            <input type="checkbox" id="js-push-toggle" class="mdl-switch__input" disabled>
+            <span class="mdl-switch__label"></span>
+        </label>
+        {{!--<div id="token_div"></div>
+        <div id="permission_div"></div>--}}
+  
+    </div>
+</div>
+
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--4-col center-cell">
         <h2 class="heading--no-padding-bottom">Setlist:</h2>
