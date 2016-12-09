@@ -10,6 +10,6 @@ module.exports = function() {
         var output = editor.getValue();
         $("#output_container").val(JSON.stringify(output[0]));
         console.log(editor.getValue().toString());
-    })
+    });
 
 } 

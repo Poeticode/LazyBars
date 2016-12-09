@@ -26,73 +26,16 @@ var packageVersion = readAsJSON('./package.json').version;
 
 var paths = {};
 
+/**
+ * meh probably wont use this
+ */
+
 /* SCSS/CSS files */
 paths.css = '_src/scss/app/**/*.scss';
 paths.cssVendor = '_src/scss/vendor/**/*.css';
 
-/* Javascript files */
-paths.js = '_src/js/app/**/*.js';
-paths.jsVendor = '_src/js/vendor/**/*.js';
-
-/* Handlebar templating files */
-paths.partials = '_src/hbs/partials/**/*.hbs';
-paths.helpers = '_src/hbs/helpers/*.js';
-paths.data = '_src/hbs/data/**/*.{js,json}';
-paths.hbs = [
-    '_src/hbs/**/*.html', 
-    '!'+paths.partials,
-    '!'+paths.helpers,
-    '!'+paths.data];
-
-/* Miscellaneous files */
-paths.static = [
-    '_src/manifest.json',
-    '_src/firebase-messaging-sw.js',
-    '_src/fonts/**/*',
-    '_src/imgs/**/*'
-];
-paths.app = '_src/js/app/app.js';
+paths.main = '_src/js/app/main.js';
 paths.dest = '/Applications/XAMPP/xamppfiles/htdocs';
-
-/**
- * Create dynamic pages based on JSON files in our /hbs/data/dynamic directory
- */
-gulp.task('createDynamicPages', function createDynamicPages(done) {
-    var tasks = [];
-
-    // Go through each JSON file in our special directory
-    glob.sync("_src/hbs/data/dynamic/*.json").forEach(function(filePath) {
-        // Read it as a JSON object
-        var jsonFile = JSON.parse(fs.readFileSync(filePath));
-
-        // They should all be arrays, so iterate over them
-        jsonFile.forEach(function(fileData) {
-            // create a file for each one, using the template + filename they specify
-            var hbStream = hb()
-                .partials(paths.partials)
-                .helpers(paths.helpers)
-                .data(paths.data)
-                .data({
-                    version: packageVersion
-                });
-
-            var currentTask = gulp.src("_src/hbs/partials/" + fileData.partialsName + ".hbs")
-                .pipe(data( function(file) { 
-                    return fileData
-                }))
-                .pipe(hbStream)
-                .pipe(rename({
-                    basename: fileData.slug,
-                    extname: '.html'
-                }))
-                .pipe(gulp.dest(paths.dest + "/" + fileData.dest))
-                .pipe(gulp.dest('dist/' + fileData.dest))
-                .pipe(livereload());
-            tasks.push(currentTask);
-        });
-    });
-    return merge(tasks);
-});
 
 /**
  * ES6 -> ES5 -> Uglified
@@ -104,10 +47,10 @@ gulp.task('scripts', function(done) {
         '_src/js/vendor/*.js'
     ]);
 
-    var appTask = browserify({entries: paths.app, debug: true})
+    var appTask = browserify({entries: paths.main, debug: true})
         .transform("babelify", { presets: ["es2015"] })
         .bundle()
-        .pipe(source('app.js'))
+        .pipe(source('main.js'))
         .pipe(buffer());
 
     return merge(vendorTask, appTask)

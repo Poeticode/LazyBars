@@ -1,4 +1,4 @@
-{{> head  bodyClass="book"}}
+{{> head bodyClass="book"}}
     {{> nav }}  
     <div class="container">
         <div class="row">
@@ -8,8 +8,7 @@
                     <ul>
                         {{#each this.posts}}
                         <li>
-                            <a href="./posts/{{lookup (lookup @root.dynamic.posts @index) 'slug'}}.html">{{lookup (lookup @root.dynamic.posts @index) 'title'}}</a>
-                            <i>by {{lookup (lookup @root.dynamic.posts @index) 'author'}}</i>
+                            <a href="./poetry/{{lookup (lookup @root.dynamic.poetry @index) 'slug'}}.html">{{lookup (lookup @root.dynamic.poetry @index) 'title'}}</a>
                         </li>  
                         {{/each}}
                     </ul>
