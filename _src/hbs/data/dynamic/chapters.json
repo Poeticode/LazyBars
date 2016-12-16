@@ -4,7 +4,7 @@
     "dest": "chapters/",
     "title": "Chapter One",
     "description": "a wicked good chapter",
-    "posts": [0]
+    "posts": [0, 1]
 }, {
     "partialsName": "chapter",
     "slug": "chaptertwo",
