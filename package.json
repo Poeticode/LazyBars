@@ -1,6 +1,6 @@
 {
   "name": "betacodes",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "Beta site",
   "main": "./dist/index.html",
   "scripts": {
